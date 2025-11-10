@@ -13,8 +13,9 @@ struct HomeV: View {
         ZStack {
             Color.primary_color.edgesIgnoringSafeArea(.all)
             
-            ScrollView(.horizontal, showsIndicators: false) {
-                VStack(alignment: .leading, spacing: 0) {
+            // ИЗМЕНЕНО: .vertical вместо .horizontal
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack(alignment: .center, spacing: 0) {
                     // Header
                     HomeHeaderV(headerStr: viewModel.headerStr, onTapSearch: { searchTapped.toggle() })
                     // Playlists
@@ -34,7 +35,9 @@ struct HomeV: View {
                 .fullScreenCover(isPresented: $searchTapped) {
                     Neuromorphism()
                 }
-            }.animation(.spring()).edgesIgnoringSafeArea([.horizontal, .bottom])
+            }
+            .animation(.spring())
+            .edgesIgnoringSafeArea([.horizontal, .bottom])
         }
     }
 }
@@ -43,18 +46,24 @@ fileprivate struct HomePlaylistV: View {
     let playlists: [MusicM], onSelect: (MusicM) -> ()
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 24) {
+            // ИЗМЕНЕНО: вертикальный скролл
+            ScrollView(.vertical, showsIndicators: false) {
+                // ИЗМЕНЕНО: VStack вместо HStack
+                VStack(spacing: 24) {
                     ForEach(0..<playlists.count, id: \.self) { i in
                         Button(action: { onSelect(playlists[i]) }, label: {
                             PlaylistV(
                                 name: playlists[i].name,
                                 coverImage: playlists[i].imageUrl
                            )
-                        }).padding(.top, 6).padding(.bottom, 40)
+                        })
+                        .padding(.horizontal, Constants.Sizes.HORIZONTAL_SPACING)
+                        .padding(.top, 6)
+                        .padding(.bottom, 40)
                     }
-                }.padding(.horizontal, Constants.Sizes.HORIZONTAL_SPACING)
+                }
             }
-        }.padding(.top, 36)
+        }
+        .padding(.top, 36)
     }
 }
