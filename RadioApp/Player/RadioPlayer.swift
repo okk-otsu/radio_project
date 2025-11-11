@@ -7,28 +7,37 @@ import AVKit
 import Foundation
 
 final class RadioPlayer: ObservableObject {
-    var player = AVPlayer()
+    static let shared = RadioPlayer()
+
+    let player = AVPlayer()
     
     @Published var isPlaying = false
     @Published var efir: MusicM? = nil
-    
-    init() { }
-    
-    func initPlayer(url: String) {
-        guard let url = URL(string: url) else { return }
-        let playerItem = AVPlayerItem(url: url)
-        player = AVPlayer(playerItem: playerItem)
-    }
 
+    private init() { }
+    
     func play(_ efir: MusicM) {
+        guard let url = URL(string: efir.streamUrl) else {
+            print("Invalid url: \(efir.streamUrl)")
+            return
+        }
+
+        let item = AVPlayerItem(url: url)
+        player.replaceCurrentItem(with: item)
+
         self.efir = efir
         player.volume = 1
         player.play()
         isPlaying = true
     }
     
-    func stop() {
-        isPlaying = false
+    func pause() {
         player.pause()
+        isPlaying = false
+    }
+    
+    func stop() {
+        pause()
+        efir = nil
     }
 }
