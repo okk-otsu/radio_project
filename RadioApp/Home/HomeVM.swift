@@ -13,8 +13,8 @@ public class RadioFetcher: ObservableObject {
     @Published var efirs = [MusicM]()
     @Published var favEfirs = [MusicM]()
     
-    private let favouritesKey = "favourites"
-    
+    private let favouritesKey = "favourites_stream_urls"
+
     init() {
         load()
     }
@@ -67,36 +67,70 @@ public class RadioFetcher: ObservableObject {
         return newfavArr
     }
     
-    func favAdd(efir: MusicM) {
-        favEfirs.append(efir)
-    }
+    // MARK: - Favourites API (по streamUrl)
+       func isFavorite(_ m: MusicM) -> Bool {
+           let stored = UserDefaults.standard.array(forKey: favouritesKey) as? [String] ?? []
+           return stored.contains(m.streamUrl)
+       }
 
-    func favDel(efir: MusicM) {
-        favEfirs.removeAll() { $0 == efir }
-    }
+       func toggleFavorite(_ m: MusicM) {
+           isFavorite(m) ? favDel(efir: m) : favAdd(efir: m)
+       }
+
+       func favAdd(efir: MusicM) {
+           var stored = UserDefaults.standard.array(forKey: favouritesKey) as? [String] ?? []
+           if !stored.contains(efir.streamUrl) {
+               stored.append(efir.streamUrl)
+               UserDefaults.standard.set(stored, forKey: favouritesKey)
+           }
+           syncFavModels()
+       }
+
+       func favDel(efir: MusicM) {
+           var stored = UserDefaults.standard.array(forKey: favouritesKey) as? [String] ?? []
+           stored.removeAll { $0 == efir.streamUrl }
+           UserDefaults.standard.set(stored, forKey: favouritesKey)
+           syncFavModels()
+       }
+
+       /// пересобираем массив моделей избранного из актуального списка efirs
+       private func syncFavModels() {
+           let stored = UserDefaults.standard.array(forKey: favouritesKey) as? [String] ?? []
+           favEfirs = efirs.filter { stored.contains($0.streamUrl) }
+       }
 }
 
 final class HomeVM: ObservableObject {
     @Published private(set) var headerStr = "Radios"
     @Published private(set) var playlists = [MusicM]()
     @Published private(set) var recentlyPlayed = [MusicM]()
-    
+
     @Published private(set) var selectedMusic: MusicM? = nil
     var fetcher = RadioFetcher.shared
     @Published var displayPlayer = false
-    
+
     init() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.fetchPlaylist()
         }
     }
-    
+
     private func fetchPlaylist() {
         playlists = fetcher.efirs
     }
-    
+
     func selectMusic(music: MusicM) {
         selectedMusic = music
         displayPlayer = true
+    }
+
+    // MARK: - Favourites passthrough
+    func isFavorite(music: MusicM) -> Bool {
+        fetcher.isFavorite(music)
+    }
+    func toggleFavorite(music: MusicM) {
+        fetcher.toggleFavorite(music)
+        // чтобы галочки на карточках обновились
+        objectWillChange.send()
     }
 }

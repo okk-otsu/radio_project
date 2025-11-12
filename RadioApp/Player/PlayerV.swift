@@ -84,13 +84,12 @@ struct PlayerV: View {
             Slider(value: viewModel.volumeBinding, in: 0...1)
                 .accentColor(.main_white)
             
-            Button(action: {
-                viewModel.liked.toggle()
-            }) {
+            Button(action: { viewModel.toggleLike() }) {
                 (viewModel.liked ? Image.heart_filled : Image.heart)
                     .resizable()
                     .frame(width: 20, height: 20)
             }
+
         }
     }
     

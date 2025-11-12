@@ -7,68 +7,57 @@ import SwiftUI
 
 struct HomeV: View {
     @State private var searchTapped: Bool = false
-    @StateObject private var viewModel = HomeVM()
-    
+    @StateObject var viewModel: HomeVM   // <-- не private
+
     var body: some View {
         ZStack {
-            Color.primary_color.edgesIgnoringSafeArea(.all)
-            
+            Color.primary_color.ignoresSafeArea()
             ScrollView(.vertical, showsIndicators: false) {
-                VStack(alignment: .center, spacing: 0) {
-                    // Header
-                    HomeHeaderV(
-                        headerStr: viewModel.headerStr,
-                        onTapSearch: { searchTapped.toggle() }
-                    )
-                    
-                    // Playlists
+                VStack(spacing: 0) {
+                    HomeHeaderV(headerStr: viewModel.headerStr, onTapSearch: { searchTapped.toggle() })
+
+                    // список всех станций
                     HomePlaylistV(
                         playlists: viewModel.playlists,
                         onSelect: viewModel.selectMusic(music:)
                     )
-                    
+
                     Spacer().frame(height: 150)
                     Spacer()
                 }
             }
-            .animation(.spring(), value: viewModel.playlists)
-            .edgesIgnoringSafeArea([.horizontal, .bottom])
         }
-        // Открываем плеер, когда выбрана станция
         .fullScreenCover(isPresented: $viewModel.displayPlayer) {
             if let model = viewModel.selectedMusic {
                 PlayerV(
                     viewModel: PlayerVM(
                         model: model,
-                        allStations: viewModel.playlists   // весь список для next/prev
+                        allStations: viewModel.playlists
                     )
                 )
             }
         }
-        // Экран поиска / неоморфизма
         .fullScreenCover(isPresented: $searchTapped) {
             Neuromorphism()
         }
     }
 }
 
+
 fileprivate struct HomePlaylistV: View {
     let playlists: [MusicM]
     let onSelect: (MusicM) -> Void
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 24) {
                     ForEach(0..<playlists.count, id: \.self) { i in
-                        Button(action: {
-                            onSelect(playlists[i])
-                        }) {
-                            PlaylistV(
-                                name: playlists[i].name,
-                                coverImage: playlists[i].imageUrl
-                            )
+                        let item = playlists[i]
+                        Button(action: { onSelect(item) }) {
+                            PlaylistV(name: item.name, coverImage: item.imageUrl)
                         }
+                        .buttonStyle(.plain)
                         .padding(.horizontal, Constants.Sizes.HORIZONTAL_SPACING)
                         .padding(.top, 6)
                         .padding(.bottom, 40)

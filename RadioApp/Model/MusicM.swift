@@ -14,6 +14,11 @@ struct MusicM: Codable, Identifiable, Equatable {
     // Автоматически генерируется при создании каждого экземпляра
     let id = UUID()
     
+    //это нужно, чтобы удаление из избранного работало стабильно
+    static func == (lhs: MusicM, rhs: MusicM) -> Bool {
+        lhs.streamUrl == rhs.streamUrl
+    }
+    
     // Случайный цвет для фона или акцента элемента
     // Генерируется автоматически при создании каждого экземпляра
     let randomColor = Color(

@@ -22,6 +22,8 @@
 		31F81BE12C48A9840003F814 /* NeuShadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F81BD32C48A9840003F814 /* NeuShadow.swift */; };
 		31F81BE22C48A9840003F814 /* PlayerV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F81BD52C48A9840003F814 /* PlayerV.swift */; };
 		31F81BE32C48A9840003F814 /* PlayerVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F81BD62C48A9840003F814 /* PlayerVM.swift */; };
+		FAF065C12EC47868003E09B7 /* MainTabV.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF065C02EC47861003E09B7 /* MainTabV.swift */; };
+		FAF065C42EC478B5003E09B7 /* FavoritesV.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF065C32EC478AF003E09B7 /* FavoritesV.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +43,8 @@
 		31F81BD32C48A9840003F814 /* NeuShadow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeuShadow.swift; sourceTree = "<group>"; };
 		31F81BD52C48A9840003F814 /* PlayerV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerV.swift; sourceTree = "<group>"; };
 		31F81BD62C48A9840003F814 /* PlayerVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerVM.swift; sourceTree = "<group>"; };
+		FAF065C02EC47861003E09B7 /* MainTabV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabV.swift; sourceTree = "<group>"; };
+		FAF065C32EC478AF003E09B7 /* FavoritesV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesV.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +77,7 @@
 		31765D0D2C48A8EF0044510E /* RadioApp */ = {
 			isa = PBXGroup;
 			children = (
+				FAF065C22EC47897003E09B7 /* Favorites */,
 				31765D0E2C48A8EF0044510E /* RadioApp.swift */,
 				31765D122C48A8F00044510E /* Assets.xcassets */,
 				31F81BD42C48A9840003F814 /* Helpers */,
@@ -87,6 +92,7 @@
 		31F81BC92C48A9840003F814 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				FAF065C02EC47861003E09B7 /* MainTabV.swift */,
 				31F81BC72C48A9840003F814 /* HomeV.swift */,
 				31F81BC82C48A9840003F814 /* HomeVM.swift */,
 				31CB34482D455C39004B6318 /* HomeHeaderV.swift */,
@@ -130,6 +136,14 @@
 				31F81BD62C48A9840003F814 /* PlayerVM.swift */,
 			);
 			path = Player;
+			sourceTree = "<group>";
+		};
+		FAF065C22EC47897003E09B7 /* Favorites */ = {
+			isa = PBXGroup;
+			children = (
+				FAF065C32EC478AF003E09B7 /* FavoritesV.swift */,
+			);
+			path = Favorites;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -205,11 +219,13 @@
 				3164F9112DE9D53200419AC8 /* PlayerDiscV.swift in Sources */,
 				31F81BDA2C48A9840003F814 /* Data.swift in Sources */,
 				31F81BDE2C48A9840003F814 /* PlaylistV.swift in Sources */,
+				FAF065C42EC478B5003E09B7 /* FavoritesV.swift in Sources */,
 				31F81BE32C48A9840003F814 /* PlayerVM.swift in Sources */,
 				31765D0F2C48A8EF0044510E /* RadioApp.swift in Sources */,
 				3164F9132DE9D69900419AC8 /* RadioPlayer.swift in Sources */,
 				31F81BE22C48A9840003F814 /* PlayerV.swift in Sources */,
 				31F81BD92C48A9840003F814 /* HomeVM.swift in Sources */,
+				FAF065C12EC47868003E09B7 /* MainTabV.swift in Sources */,
 				31F81BE12C48A9840003F814 /* NeuShadow.swift in Sources */,
 				31F81BDB2C48A9840003F814 /* MusicM.swift in Sources */,
 				31F81BE02C48A9840003F814 /* ImageExt.swift in Sources */,

@@ -6,22 +6,21 @@
 import SwiftUI
 
 struct PlaylistV: View {
-    let name: String, coverImage: URL
-    
+    let name: String
+    let coverImage: URL
+
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
             AsyncImage(url: coverImage) { phase in
                 if let image = phase.image {
-                    image
-                        .resizable()
-                        .scaledToFit()
+                    image.resizable().scaledToFit()
                 } else {
                     Color.gray
                 }
             }
             .frame(width: 140, height: 100)
             .cornerRadius(16)
-            
+
             Text(name)
                 .foregroundColor(.text_primary)
                 .bold()
@@ -31,7 +30,8 @@ struct PlaylistV: View {
         }
         .padding(12)
         .background(Color.primary_color)
-        .cornerRadius(24).modifier(NeuShadow())
+        .cornerRadius(24)
+        .modifier(NeuShadow())
         .frame(maxWidth: 200, maxHeight: 400)
     }
 }
